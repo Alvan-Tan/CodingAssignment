@@ -67,6 +67,57 @@ void Display()
 void Search()
 {
     Console.WriteLine("Enter the key to search.");
+    var seen = false;
 
     var key = Console.ReadLine()!;
+
+    if (key is null)
+    {
+        Console.WriteLine("Invalid input!");
+        return;
+    }
+
+    key = key.ToLower();
+    var fileUtility = new FileUtility(new FileSystem());
+
+    CsvContentParser csvParser = new CsvContentParser();
+    var csvDataList = Enumerable.Empty<Data>();
+    csvDataList = csvParser.Parse(fileUtility.GetContent("data/data.csv"));
+    foreach (Data data in csvDataList)
+    {
+        if (data.Key.ToLower() == key)
+        {
+            Console.WriteLine($"Key:{key} Value:{data.Value} FileName:data\\data.csv");
+            seen = true;
+        }
+    }
+
+    JsonContentParser jsonParser = new JsonContentParser();
+    var jsonDataList = Enumerable.Empty<Data>();
+    jsonDataList = jsonParser.Parse(fileUtility.GetContent("data/data.json"));
+    foreach (Data data in jsonDataList)
+    {
+        if (data.Key.ToLower() == key)
+        {
+            Console.WriteLine($"Key:{key} Value:{data.Value} FileName:data\\data.json");
+            seen = true;
+        }
+    }
+
+    XmlContentParser xmlParser = new XmlContentParser();
+    var xmlDataList = Enumerable.Empty<Data>();
+    xmlDataList = xmlParser.Parse(fileUtility.GetContent("data/data.xml"));
+    foreach (Data data in xmlDataList)
+    {
+        if (data.Key.ToLower() == key)
+        {
+            Console.WriteLine($"Key:{key} Value:{data.Value} FileName:data\\data.xml");
+            seen = true;
+        }
+    }
+
+    if (!seen)
+    {
+        Console.WriteLine("Key does not exists in any files, try again.");
+    }
 }
