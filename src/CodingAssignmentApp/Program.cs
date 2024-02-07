@@ -3,6 +3,8 @@
 using System.IO.Abstractions;
 using CodingAssignmentLib;
 using CodingAssignmentLib.Abstractions;
+using System.IO;
+using System.ComponentModel.Design;
 
 Console.WriteLine("Coding Assignment!");
 
@@ -67,19 +69,46 @@ void Display()
 void Search()
 {
     Console.WriteLine("Enter the key to search.");
-    var seen = false;
-
     var key = Console.ReadLine()!;
-
     if (key is null)
     {
         Console.WriteLine("Invalid input!");
         return;
     }
-
     key = key.ToLower();
+    
+    string[] filePaths = Directory.GetFiles("data"); 
+    var seen = false;
     var fileUtility = new FileUtility(new FileSystem());
+    IContentParser parser = null!;
 
+    foreach ( var filePath in filePaths)
+    {
+        if (fileUtility.GetExtension(filePath) == ".csv")
+        {
+            parser = new CsvContentParser();   
+        }
+        else if (fileUtility.GetExtension(filePath) == ".json")
+        {
+            parser = new JsonContentParser();
+        }
+        else if (fileUtility.GetExtension(filePath) == ".xml")
+        {
+            parser = new XmlContentParser();
+        }
+
+        var dataList = Enumerable.Empty<Data>();
+        dataList = parser.Parse(fileUtility.GetContent($"{filePath}"));
+        foreach (Data data in dataList)
+        {
+            if (data.Key.ToLower() == key)
+            {
+                Console.WriteLine($"Key:{key} Value:{data.Value} FileName:{filePath}");
+                seen = true;
+            }
+        }
+    }
+    /*
     CsvContentParser csvParser = new CsvContentParser();
     var csvDataList = Enumerable.Empty<Data>();
     csvDataList = csvParser.Parse(fileUtility.GetContent("data/data.csv"));
@@ -115,6 +144,7 @@ void Search()
             seen = true;
         }
     }
+    */
 
     if (!seen)
     {
