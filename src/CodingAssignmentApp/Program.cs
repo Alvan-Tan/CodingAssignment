@@ -108,43 +108,6 @@ void Search()
             }
         }
     }
-    /*
-    CsvContentParser csvParser = new CsvContentParser();
-    var csvDataList = Enumerable.Empty<Data>();
-    csvDataList = csvParser.Parse(fileUtility.GetContent("data/data.csv"));
-    foreach (Data data in csvDataList)
-    {
-        if (data.Key.ToLower() == key)
-        {
-            Console.WriteLine($"Key:{key} Value:{data.Value} FileName:data\\data.csv");
-            seen = true;
-        }
-    }
-
-    JsonContentParser jsonParser = new JsonContentParser();
-    var jsonDataList = Enumerable.Empty<Data>();
-    jsonDataList = jsonParser.Parse(fileUtility.GetContent("data/data.json"));
-    foreach (Data data in jsonDataList)
-    {
-        if (data.Key.ToLower() == key)
-        {
-            Console.WriteLine($"Key:{key} Value:{data.Value} FileName:data\\data.json");
-            seen = true;
-        }
-    }
-
-    XmlContentParser xmlParser = new XmlContentParser();
-    var xmlDataList = Enumerable.Empty<Data>();
-    xmlDataList = xmlParser.Parse(fileUtility.GetContent("data/data.xml"));
-    foreach (Data data in xmlDataList)
-    {
-        if (data.Key.ToLower() == key)
-        {
-            Console.WriteLine($"Key:{key} Value:{data.Value} FileName:data\\data.xml");
-            seen = true;
-        }
-    }
-    */
 
     if (!seen)
     {
